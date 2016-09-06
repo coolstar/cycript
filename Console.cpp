@@ -965,9 +965,8 @@ int Main(int argc, char * const argv[], char const * const envp[]) {
                 if (optarg + size != end) {
                     // XXX: arg needs to be escaped in some horrendous way of doom
                     // XXX: this is a memory leak now because I just don't care enough
-                    char *command;
-                    int writ(asprintf(&command, "ps axc|sed -e '/^ *[0-9]/{s/^ *\\([0-9]*\\)\\( *[^ ]*\\)\\{3\\} *-*\\([^ ]*\\)/\\3 \\1/;/^%s /{s/^[^ ]* //;q;};};d'", optarg));
-                    _assert(writ != -1);
+                    CYPool pool;
+                    char *command(pool.sprintf(strlen(optarg) + 256, "ps axc|sed -e '/^ *[0-9]/{s/^ *\\([0-9]*\\)\\( *[^ ]*\\)\\{3\\} *-*\\([^ ]*\\)/\\3 \\1/;/^%s /{s/^[^ ]* //;q;};};d'", optarg));
 
                     if (FILE *pids = popen(command, "r")) {
                         char value[32];
