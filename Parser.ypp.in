@@ -550,9 +550,6 @@ type; })
 %type <expression_> ExpressionOpt
 %type <for_> ExpressionStatement_
 %type <statement_> ExpressionStatement
-%type <statement_> ExternC
-%type <statement_> ExternCStatement
-%type <statement_> ExternCStatementListOpt
 %type <finally_> Finally
 %type <binding_> ForBinding
 %type <forin_> ForDeclaration
@@ -574,9 +571,7 @@ type; })
 %type <statement_> HoistableDeclaration
 %type <identifier_> Identifier
 %type <identifier_> IdentifierNoOf
-%type <identifier_> IdentifierType
 %type <identifier_> IdentifierTypeNoOf
-%type <identifier_> IdentifierTypeOpt
 %type <word_> IdentifierName
 %type <variable_> IdentifierReference
 %type <statement_> IfStatement
@@ -588,7 +583,6 @@ type; })
 %type <import_> ImportsList_
 %type <import_> ImportsList
 %type <import_> ImportsListOpt
-%type <target_> IndirectExpression
 %type <expression_> Initializer
 %type <expression_> InitializerOpt
 %type <statement_> IterationStatement
@@ -657,7 +651,6 @@ type; })
 %type <span_> TemplateSpans
 %type <statement_> ThrowStatement
 %type <statement_> TryStatement
-%type <statement_> TypeDefinition
 %type <expression_> UnaryExpression_
 %type <expression_> UnaryExpression
 %type <binding_> VariableDeclaration
@@ -676,6 +669,12 @@ type; })
 @begin C
 %type <constant_> EnumConstantListOpt_
 %type <constant_> EnumConstantListOpt
+%type <statement_> ExternC
+%type <statement_> ExternCStatement
+%type <statement_> ExternCStatementListOpt
+%type <identifier_> IdentifierType
+%type <identifier_> IdentifierTypeOpt
+%type <target_> IndirectExpression
 %type <number_> IntegerNumber
 %type <integral_> IntegerType
 %type <integral_> IntegerTypeOpt
@@ -685,6 +684,7 @@ type; })
 %type <structField_> StructFieldListOpt
 %type <typedName_> SuffixedType
 %type <typedName_> SuffixedTypeOpt
+%type <statement_> TypeDefinition
 %type <typedName_> TypeSignifier
 %type <typedName_> TypeSignifierNone
 %type <typedName_> TypeSignifierOpt
@@ -924,20 +924,24 @@ NewLineNot
     : LexNewLineOrNot ""
     ;
 
+@begin C
 NewLineOpt
     : LexNewLineOrNot "\n"
     | NewLineNot
     ;
+@end
 
 TerminatorSoft
     : LexNewLineOrNot "\n" StrictSemi
     | NewLineNot LexOf Terminator
     ;
 
+@begin C
 TerminatorHard
     : ";"
     | error { if (yyla.type_get() != yyeof_) CYERR(@error, "required semi-colon"); else CYEOK(); } StrictSemi
     ;
+@end
 
 Terminator
     : ";"
@@ -1013,6 +1017,7 @@ IdentifierTypeNoOf
 @end
     ;
 
+@begin C
 IdentifierType
     : IdentifierTypeNoOf[pass] { $$ = $pass; }
     | "of" { $$ = CYNew CYIdentifier("of"); }
@@ -1022,6 +1027,7 @@ IdentifierTypeOpt
     : IdentifierType[pass] { $$ = $pass; }
     | { $$ = NULL; }
     ;
+@end
 
 IdentifierNoOf
     : IdentifierTypeNoOf
@@ -1249,7 +1255,9 @@ AccessExpression
 
 LeftHandSideExpression
     : BracedExpression[pass] { $$ = $pass; }
+@begin C
     | IndirectExpression[pass] { $$ = $pass; }
+@end
     ;
 /* }}} */
 /* 12.4 Postfix Expressions {{{ */
@@ -1638,7 +1646,9 @@ ForStatementInitializer
 
 ForInStatementInitializer
     : LexLet LexOf BracedExpression[pass] { $$ = $pass; }
+@begin C
     | LexLet LexOf IndirectExpression[pass] { $$ = $pass; }
+@end
     | LexLet LexOf Var_ LexBind ForBinding[binding] { $$ = CYNew CYForVariable($binding); }
     | ForDeclaration[pass] { $$ = $pass; }
     ;

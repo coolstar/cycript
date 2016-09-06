@@ -220,7 +220,7 @@ static void sigint(int) {
         case Parsing:
             longjmp(ctrlc_, 1);
         case Running:
-#ifndef __ANDROID__
+#ifdef CY_EXECUTE
             CYCancel();
 #endif
             return;
@@ -341,6 +341,7 @@ class CYSocketRemote :
     }
 };
 
+#ifdef CY_EXECUTE
 void InjectLibrary(pid_t, std::ostream &stream, int, const char *const []);
 
 class CYInjectRemote :
@@ -366,6 +367,7 @@ class CYInjectRemote :
         return CYUTF8String(strdup(json.c_str()), json.size());
     }
 };
+#endif
 
 static std::ostream *out_;
 
@@ -775,12 +777,14 @@ static void Console(CYOptions &options) {
             } else if (data == "debug") {
                 debug = !debug;
                 *out_ << "debug == " << (debug ? "true" : "false") << std::endl;
+#ifdef CY_EXECUTE
             } else if (data == "destroy") {
                 CYDestroyContext();
             } else if (data == "gc") {
                 *out_ << "collecting... " << std::flush;
                 CYGarbageCollect(CYGetJSContext());
                 *out_ << "done." << std::endl;
+#endif
             } else if (data == "exit") {
                 return;
             } else if (data == "lower") {
@@ -879,7 +883,9 @@ int Main(int argc, char * const argv[], char const * const envp[]) {
     const char *host(NULL);
     const char *port(NULL);
 
+#ifdef CY_EXECUTE
     const char *argv0(argv[0]);
+#endif
 
     optind = 1;
 
@@ -1057,8 +1063,10 @@ int Main(int argc, char * const argv[], char const * const envp[]) {
     CYSetArgs(argv0, script, argc, const_cast<const char **>(argv));
 #endif
 
+#ifdef CY_EXECUTE
     if (remote_ == NULL && pid != _not(pid_t))
         remote_ = new CYInjectRemote(pid);
+#endif
 
     if (remote_ == NULL && host != NULL && port != NULL)
         remote_ = new CYSocketRemote(host, port);

@@ -37,6 +37,8 @@
 #include <ffi.h>
 #endif
 
+#include "sig/types.hpp"
+
 #include "Pooling.hpp"
 #include "String.hpp"
 #include "Utility.hpp"
@@ -67,9 +69,7 @@ JSObjectRef CYGetGlobalObject(JSContextRef context);
 extern "C" void CYSetupContext(JSGlobalContextRef context);
 const char *CYExecute(JSContextRef context, CYPool &pool, CYUTF8String code);
 
-#ifndef __ANDROID__
 void CYCancel();
-#endif
 
 void CYSetArgs(const char *argv0, const char *script, int argc, const char *argv[]);
 

@@ -57,7 +57,7 @@ lib_LTLIBRARIES += libcycript.la
 libcycript_la_LDFLAGS = $(CY_LDFLAGS)
 libcycript_la_LIBADD = $(LTLIBUV) $(LTLIBFFI) $(LTLIBSQLITE3) $(LTLIBGCC) -ldl
 
-libcycript_la_SOURCES = ConvertUTF.c Decode.cpp Driver.cpp Error.cpp Highlight.cpp Library.cpp Network.cpp Output.cpp Replace.cpp Syntax.cpp
+libcycript_la_SOURCES = ConvertUTF.c Driver.cpp Error.cpp Highlight.cpp Library.cpp Network.cpp Output.cpp Replace.cpp Syntax.cpp
 libcycript_la_SOURCES += Parser.cpp Scanner.cpp
 
 filters = 
@@ -68,6 +68,10 @@ cycript_SOURCES = Console.cpp
 cycript_LDADD = libcycript.la $(LTLIBREADLINE) $(LTLIBTERMCAP) $(LTLIBGCC) $(PTHREAD_CFLAGS) -ldl
 libcycript_la_SOURCES += Complete.cpp
 
+if CY_EXECUTE
+cycript_SOURCES += Inject.cpp
+endif
+
 if CY_ANDROID
 bin_PROGRAMS += cycript-pie
 cycript_pie_SOURCES = pie.c
@@ -77,7 +81,7 @@ endif
 
 if CY_EXECUTE
 libcycript_la_SOURCES += sig/ffi_type.cpp sig/parse.cpp sig/copy.cpp
-libcycript_la_SOURCES += Execute.cpp JavaScriptCore.cpp
+libcycript_la_SOURCES += Decode.cpp Execute.cpp Handler.cpp JavaScriptCore.cpp
 libcycript_la_LIBADD += $(LTJAVASCRIPTCORE)
 dat_DATA += libcycript.db
 
@@ -153,12 +157,6 @@ AM_CPPFLAGS += -DCY_OBJECTIVEC
 filters += ObjectiveC
 libcycript_la_SOURCES += ObjectiveC/Output.cpp ObjectiveC/Replace.cpp ObjectiveC/Library.mm
 libcycript_la_LIBADD += $(LTOBJECTIVEC)
-endif
-
-libcycript_la_SOURCES += Handler.cpp
-
-if CY_CONSOLE
-cycript_SOURCES += Inject.cpp
 endif
 
 CLEANFILES += Parser.ypp

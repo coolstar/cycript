@@ -113,16 +113,18 @@ host_triplet = @host@
 @CY_ANDROID_TRUE@am__append_2 = -rdynamic -fPIE -pie
 @CY_CONSOLE_TRUE@bin_PROGRAMS = cycript$(EXEEXT) $(am__EXEEXT_1)
 @CY_CONSOLE_TRUE@am__append_3 = Complete.cpp
-@CY_ANDROID_TRUE@@CY_CONSOLE_TRUE@am__append_4 = cycript-pie
-@CY_EXECUTE_TRUE@am__append_5 = sig/ffi_type.cpp sig/parse.cpp \
-@CY_EXECUTE_TRUE@	sig/copy.cpp Execute.cpp JavaScriptCore.cpp
-@CY_EXECUTE_TRUE@am__append_6 = $(LTJAVASCRIPTCORE)
-@CY_EXECUTE_TRUE@am__append_7 = libcycript.db
-@CY_EXECUTE_TRUE@am__append_8 = -DCY_EXECUTE
-@CY_EXECUTE_TRUE@am__append_9 = C
-@CY_EXECUTE_TRUE@am__append_10 = libcycript.db
-@CY_EXECUTE_TRUE@@CY_PRELINK_TRUE@am__append_11 = Analyze Bridge.def
-@CY_EXECUTE_TRUE@@CY_PRELINK_FALSE@am__append_12 = Bridge.def
+@CY_CONSOLE_TRUE@@CY_EXECUTE_TRUE@am__append_4 = Inject.cpp
+@CY_ANDROID_TRUE@@CY_CONSOLE_TRUE@am__append_5 = cycript-pie
+@CY_EXECUTE_TRUE@am__append_6 = sig/ffi_type.cpp sig/parse.cpp \
+@CY_EXECUTE_TRUE@	sig/copy.cpp Decode.cpp Execute.cpp \
+@CY_EXECUTE_TRUE@	Handler.cpp JavaScriptCore.cpp
+@CY_EXECUTE_TRUE@am__append_7 = $(LTJAVASCRIPTCORE)
+@CY_EXECUTE_TRUE@am__append_8 = libcycript.db
+@CY_EXECUTE_TRUE@am__append_9 = -DCY_EXECUTE
+@CY_EXECUTE_TRUE@am__append_10 = C
+@CY_EXECUTE_TRUE@am__append_11 = libcycript.db
+@CY_EXECUTE_TRUE@@CY_PRELINK_TRUE@am__append_12 = Analyze Bridge.def
+@CY_EXECUTE_TRUE@@CY_PRELINK_FALSE@am__append_13 = Bridge.def
 
 #CLEANFILES += Hasher.gperf
 #Hasher.gperf: Hasher.def Hasher.sh
@@ -131,20 +133,20 @@ host_triplet = @host@
 #CLEANFILES += Hasher.hpp
 #Hasher.hpp: Hasher.gperf
 #	$(GPERF) $< >$@
-@CY_JAVA_TRUE@am__append_13 = Java
-@CY_JAVA_TRUE@am__append_14 = Java/Execute.cpp
-@CY_JAVA_TRUE@am__append_15 = libcycript.jar
-@CY_JAVA_TRUE@am__append_16 = Class libcycript.jar
-@CY_RUBY_TRUE@am__append_17 = Ruby
-@CY_RUBY_TRUE@am__append_18 = Ruby/Execute.cpp
-@CY_RUBY_TRUE@am__append_19 = $(LTRUBY)
-@CY_PYTHON_TRUE@am__append_20 = Python
-@CY_PYTHON_TRUE@am__append_21 = Python/Execute.cpp
-@CY_PYTHON_TRUE@am__append_22 = $(LTPYTHON)
-@CY_OBJECTIVEC_TRUE@am__append_23 = -DCY_OBJECTIVEC
-@CY_OBJECTIVEC_TRUE@am__append_24 = ObjectiveC
-@CY_OBJECTIVEC_TRUE@am__append_25 = ObjectiveC/Output.cpp ObjectiveC/Replace.cpp ObjectiveC/Library.mm
-@CY_OBJECTIVEC_TRUE@am__append_26 = $(LTOBJECTIVEC)
+@CY_JAVA_TRUE@am__append_14 = Java
+@CY_JAVA_TRUE@am__append_15 = Java/Execute.cpp
+@CY_JAVA_TRUE@am__append_16 = libcycript.jar
+@CY_JAVA_TRUE@am__append_17 = Class libcycript.jar
+@CY_RUBY_TRUE@am__append_18 = Ruby
+@CY_RUBY_TRUE@am__append_19 = Ruby/Execute.cpp
+@CY_RUBY_TRUE@am__append_20 = $(LTRUBY)
+@CY_PYTHON_TRUE@am__append_21 = Python
+@CY_PYTHON_TRUE@am__append_22 = Python/Execute.cpp
+@CY_PYTHON_TRUE@am__append_23 = $(LTPYTHON)
+@CY_OBJECTIVEC_TRUE@am__append_24 = -DCY_OBJECTIVEC
+@CY_OBJECTIVEC_TRUE@am__append_25 = ObjectiveC
+@CY_OBJECTIVEC_TRUE@am__append_26 = ObjectiveC/Output.cpp ObjectiveC/Replace.cpp ObjectiveC/Library.mm
+@CY_OBJECTIVEC_TRUE@am__append_27 = $(LTOBJECTIVEC)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
@@ -203,28 +205,29 @@ libcycript_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_5)
-am__libcycript_la_SOURCES_DIST = ConvertUTF.c Decode.cpp Driver.cpp \
-	Error.cpp Highlight.cpp Library.cpp Network.cpp Output.cpp \
-	Replace.cpp Syntax.cpp Parser.cpp Scanner.cpp Complete.cpp \
-	sig/ffi_type.cpp sig/parse.cpp sig/copy.cpp Execute.cpp \
-	JavaScriptCore.cpp Java/Execute.cpp Ruby/Execute.cpp \
-	Python/Execute.cpp ObjectiveC/Output.cpp \
-	ObjectiveC/Replace.cpp ObjectiveC/Library.mm Handler.cpp
+am__libcycript_la_SOURCES_DIST = ConvertUTF.c Driver.cpp Error.cpp \
+	Highlight.cpp Library.cpp Network.cpp Output.cpp Replace.cpp \
+	Syntax.cpp Parser.cpp Scanner.cpp Complete.cpp \
+	sig/ffi_type.cpp sig/parse.cpp sig/copy.cpp Decode.cpp \
+	Execute.cpp Handler.cpp JavaScriptCore.cpp Java/Execute.cpp \
+	Ruby/Execute.cpp Python/Execute.cpp ObjectiveC/Output.cpp \
+	ObjectiveC/Replace.cpp ObjectiveC/Library.mm
 @CY_CONSOLE_TRUE@am__objects_1 = Complete.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 @CY_EXECUTE_TRUE@am__objects_2 = sig/ffi_type.lo sig/parse.lo \
-@CY_EXECUTE_TRUE@	sig/copy.lo Execute.lo JavaScriptCore.lo
+@CY_EXECUTE_TRUE@	sig/copy.lo Decode.lo Execute.lo Handler.lo \
+@CY_EXECUTE_TRUE@	JavaScriptCore.lo
 @CY_JAVA_TRUE@am__objects_3 = Java/Execute.lo
 @CY_RUBY_TRUE@am__objects_4 = Ruby/Execute.lo
 @CY_PYTHON_TRUE@am__objects_5 = Python/Execute.lo
 @CY_OBJECTIVEC_TRUE@am__objects_6 = ObjectiveC/Output.lo \
 @CY_OBJECTIVEC_TRUE@	ObjectiveC/Replace.lo \
 @CY_OBJECTIVEC_TRUE@	ObjectiveC/Library.lo
-am_libcycript_la_OBJECTS = ConvertUTF.lo Decode.lo Driver.lo Error.lo \
+am_libcycript_la_OBJECTS = ConvertUTF.lo Driver.lo Error.lo \
 	Highlight.lo Library.lo Network.lo Output.lo Replace.lo \
 	Syntax.lo Parser.lo Scanner.lo $(am__objects_1) \
 	$(am__objects_2) $(am__objects_3) $(am__objects_4) \
-	$(am__objects_5) $(am__objects_6) Handler.lo
+	$(am__objects_5) $(am__objects_6)
 libcycript_la_OBJECTS = $(am_libcycript_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -236,8 +239,9 @@ libcycript_la_LINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
 @CY_ANDROID_TRUE@@CY_CONSOLE_TRUE@am__EXEEXT_1 = cycript-pie$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 am__cycript_SOURCES_DIST = Console.cpp Inject.cpp
+@CY_CONSOLE_TRUE@@CY_EXECUTE_TRUE@am__objects_7 = Inject.$(OBJEXT)
 @CY_CONSOLE_TRUE@am_cycript_OBJECTS = Console.$(OBJEXT) \
-@CY_CONSOLE_TRUE@	Inject.$(OBJEXT)
+@CY_CONSOLE_TRUE@	$(am__objects_7)
 cycript_OBJECTS = $(am_cycript_OBJECTS)
 @CY_CONSOLE_TRUE@cycript_DEPENDENCIES = libcycript.la \
 @CY_CONSOLE_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -595,15 +599,15 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
-CLEANFILES = $(am__append_10) $(am__append_11) $(am__append_12) \
-	$(am__append_16) Parser.ypp Scanner.lpp Scanner.cpp \
+CLEANFILES = $(am__append_11) $(am__append_12) $(am__append_13) \
+	$(am__append_17) Parser.ypp Scanner.lpp Scanner.cpp \
 	Scanner.output lex.backup Parser.cpp Parser.hpp stack.hh \
 	Parser.output
 SUBDIRS = 
 ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -DYYDEBUG=1 -DCY_SYSTEM="\"$(CY_SYSTEM)\"" -include \
-	config.h -include $(srcdir)/unconfig.h $(am__append_8) \
-	$(am__append_23)
+	config.h -include $(srcdir)/unconfig.h $(am__append_9) \
+	$(am__append_24)
 CY_FLAGS = -fvisibility=hidden $(am__append_1)
 AM_CFLAGS = $(CY_FLAGS)
 AM_CXXFLAGS = $(CY_FLAGS)
@@ -611,20 +615,20 @@ AM_OBJCXXFLAGS = $(CY_FLAGS) -fobjc-exceptions
 AM_LDFLAGS = $(CY_FLAGS) $(am__append_2)
 CY_LDFLAGS = -no-undefined -avoid-version -export-dynamic
 datdir = $(libdir)
-dat_DATA = $(am__append_7) $(am__append_15)
+dat_DATA = $(am__append_8) $(am__append_16)
 lib_LTLIBRARIES = libcycript.la
 libcycript_la_LDFLAGS = $(CY_LDFLAGS)
 libcycript_la_LIBADD = $(LTLIBUV) $(LTLIBFFI) $(LTLIBSQLITE3) \
-	$(LTLIBGCC) -ldl $(am__append_6) $(am__append_19) \
-	$(am__append_22) $(am__append_26)
-libcycript_la_SOURCES = ConvertUTF.c Decode.cpp Driver.cpp Error.cpp \
+	$(LTLIBGCC) -ldl $(am__append_7) $(am__append_20) \
+	$(am__append_23) $(am__append_27)
+libcycript_la_SOURCES = ConvertUTF.c Driver.cpp Error.cpp \
 	Highlight.cpp Library.cpp Network.cpp Output.cpp Replace.cpp \
 	Syntax.cpp Parser.cpp Scanner.cpp $(am__append_3) \
-	$(am__append_5) $(am__append_14) $(am__append_18) \
-	$(am__append_21) $(am__append_25) Handler.cpp
-filters = $(am__append_9) $(am__append_13) $(am__append_17) \
-	$(am__append_20) $(am__append_24)
-@CY_CONSOLE_TRUE@cycript_SOURCES = Console.cpp Inject.cpp
+	$(am__append_6) $(am__append_15) $(am__append_19) \
+	$(am__append_22) $(am__append_26)
+filters = $(am__append_10) $(am__append_14) $(am__append_18) \
+	$(am__append_21) $(am__append_25)
+@CY_CONSOLE_TRUE@cycript_SOURCES = Console.cpp $(am__append_4)
 @CY_CONSOLE_TRUE@cycript_LDADD = libcycript.la $(LTLIBREADLINE) $(LTLIBTERMCAP) $(LTLIBGCC) $(PTHREAD_CFLAGS) -ldl
 @CY_ANDROID_TRUE@@CY_CONSOLE_TRUE@cycript_pie_SOURCES = pie.c
 @CY_ANDROID_TRUE@@CY_CONSOLE_TRUE@cycript_pie_LDFLAGS = -fno-PIE

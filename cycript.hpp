@@ -24,8 +24,6 @@
 
 #include <sstream>
 
-#include <sig/types.hpp>
-
 #include "Pooling.hpp"
 #include "String.hpp"
 

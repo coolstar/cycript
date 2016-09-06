@@ -144,18 +144,6 @@ CYUTF16String CYCastUTF16String(JSStringRef value) {
     return CYUTF16String(JSStringGetCharactersPtr(value), JSStringGetLength(value));
 }
 
-const char *CYPoolCString(CYPool &pool, CYUTF8String utf8) {
-    return pool.strndup(utf8.data, utf8.size);
-}
-
-CYUTF8String CYPoolUTF8String(CYPool &pool, CYUTF8String utf8) {
-    return {pool.strndup(utf8.data, utf8.size), utf8.size};
-}
-
-_visible CYUTF8String CYPoolUTF8String(CYPool &pool, const std::string &value) {
-    return {pool.strndup(value.data(), value.size()), value.size()};
-}
-
 CYUTF8String CYPoolUTF8String(CYPool &pool, JSContextRef context, JSStringRef value) {
     return CYPoolUTF8String(pool, CYCastUTF16String(value));
 }
@@ -2137,11 +2125,11 @@ _visible const char *CYExecute(JSContextRef context, CYPool &pool, CYUTF8String 
     }
 }
 
-#ifndef __ANDROID__
 _visible void CYCancel() {
+#ifndef __ANDROID__
     cancel_ = true;
-}
 #endif
+}
 
 const char *CYPoolLibraryPath(CYPool &pool);
 
